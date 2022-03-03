@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>3fdf451b-7438-494e-b321-71f3a9c8da92</UserSecretsId>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
+		<PackageReference Include="Ozytis.Common.Core.Web.WebApi" Version="6.0.68" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.2" />
+		<PackageReference Include="Hangfire.AspNetCore" Version="1.7.28" />
+		<PackageReference Include="Hangfire.SqlServer" Version="1.7.28" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.2">			
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="6.0.2" />
+		<PackageReference Include="Ozytis.Common.Core.Logs.Core" Version="6.0.68" />
+		<PackageReference Include="Ozytis.Common.Core.Logs.NetCore" Version="6.0.68" />
+		<PackageReference Include="Ozytis.Common.Core.Emails.Core" Version="6.0.68" />
+		<PackageReference Include="Ozytis.Common.Core.Emails.NetCore" Version="6.0.68" />
+		<PackageReference Include="Ozytis.Common.Core.Hangfire" Version="6.0.68" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Api\Api.csproj" />
+	  <ProjectReference Include="..\Business\Business.csproj" />
+	  <ProjectReference Include="..\WebClient\WebClient.csproj" />
+	</ItemGroup>
+</Project>

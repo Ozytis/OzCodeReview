@@ -1,0 +1,180 @@
+﻿<platform:DialogWindow  x:Class="OzCodeReview.ToolWindows.AddReviewWindow"
+                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                        xmlns:platform="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+                        xmlns:toolkit="clr-namespace:Community.VisualStudio.Toolkit;assembly=Community.VisualStudio.Toolkit"
+                        toolkit:Themes.UseVsTheme="False"
+                        mc:Ignorable="d"
+                        Background="#fff"
+                        Width="600"
+                        Height="400"
+                        Title="Add new review"
+                        d:DesignHeight="400"
+                        d:DesignWidth="600">
+    <platform:DialogWindow.Resources>
+        <LinearGradientBrush x:Key="NormalBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFFFFF" Offset="0.0"/>
+                    <GradientStop Color="#FCFCFC" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+        
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#F0F0F0" />
+       
+        <ControlTemplate x:Key="ComboBoxToggleButton" TargetType="ToggleButton">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="20" />
+                </Grid.ColumnDefinitions>
+                <Border x:Name="Border" Grid.ColumnSpan="2" CornerRadius="2"   Background="{StaticResource NormalBrush}"  BorderThickness="1" />
+                <Border 
+                  Grid.Column="0"
+                  CornerRadius="2,0,0,2" 
+                  Margin="1" 
+                  Background="{StaticResource WindowBackgroundBrush}" 
+                  BorderThickness="0,0,1,0" />
+                <Path 
+                      x:Name="Arrow"
+                    
+                      Grid.Column="1"     
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Data="M 0 0 L 4 4 L 8 0 Z" Stroke="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
+            </Grid>
+        </ControlTemplate>
+        <ControlTemplate x:Key="ComboBoxTextBox" TargetType="TextBox">
+            <Border x:Name="PART_ContentHost" Focusable="False" Background="{TemplateBinding Background}" />
+        </ControlTemplate>
+        
+        <Style x:Key="{x:Type ComboBox}" TargetType="ComboBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <ToggleButton 
+                                 Name="ToggleButton" 
+                                 Template="{StaticResource ComboBoxToggleButton}" 
+                                 Grid.Column="2" 
+                                 Focusable="false"
+                                 IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                                 ClickMode="Press">
+                            </ToggleButton>
+                            <ContentPresenter
+                                Name="ContentSite"
+                                IsHitTestVisible="False" 
+                                Margin="3,15,23,15"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left" />
+                            <TextBox x:Name="PART_EditableTextBox"
+                                Style="{x:Null}" 
+                                Template="{StaticResource ComboBoxTextBox}" 
+                                HorizontalAlignment="Left" 
+                                VerticalAlignment="Center" 
+                                Margin="3,3,23,3"
+                                Focusable="True" 
+                                Background="Transparent"
+                                Visibility="Hidden"
+                                IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                            <Popup 
+                                 Name="Popup"
+                                 Placement="Bottom"
+                                 IsOpen="{TemplateBinding IsDropDownOpen}"
+                                 AllowsTransparency="True" 
+                                 Focusable="False"
+                                 PopupAnimation="Slide">
+                                <Grid 
+                                    Name="DropDown"
+                                    SnapsToDevicePixels="True"                
+                                    MinWidth="{TemplateBinding ActualWidth}"
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                                    <Border 
+                                         x:Name="DropDownBorder"
+                                         Background="{StaticResource WindowBackgroundBrush}"
+                                         BorderThickness="1"/>
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                    </ScrollViewer>
+                                </Grid>
+                            </Popup>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+            </Style.Triggers>
+        </Style>
+
+    </platform:DialogWindow.Resources>
+    <Grid Margin="0" Background="#fff">
+
+        <DockPanel VerticalAlignment="Stretch">
+            <DockPanel DockPanel.Dock="Bottom" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Bottom"   LastChildFill="False">
+                <Button x:Name="CancelButton" Width="300" DockPanel.Dock="Left"  Content="Cancel" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Top" Background="White" Click="CancelButton_Click"                            
+                            FontSize="14"
+                            Padding="0,5"
+                            Cursor="Hand"
+                            BorderBrush="White"
+                            Foreground="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"/>
+
+                <Button x:Name="ValidationButton" Width="300" DockPanel.Dock="Right" Content="Confirm" HorizontalAlignment="Stretch" 
+                            VerticalAlignment="Top"  Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}" 
+                            FontSize="14"
+                            Padding="0,5"
+                            Cursor="Hand"
+                            BorderBrush="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"
+                            Foreground="White"  Click="ValidationButton_Click" />
+            </DockPanel>
+            <DockPanel Background="#fff" Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DockPanel}}}" DockPanel.Dock="Top">
+
+                <TextBlock Text="Review type"  DockPanel.Dock="Top" Margin="10,5" Foreground="#000"/>
+
+                <ComboBox x:Name="ReviewTypeList" Margin="10,5"
+                      DisplayMemberPath="Label" ToolTip="Review type"
+                      SelectionChanged="ReviewTypeList_SelectionChanged"
+                      DockPanel.Dock="Top"
+                      Background="#fff"
+                      Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DockPanel}}}"
+                 />
+
+                <TextBlock Text="Recipient"  DockPanel.Dock="Top" Margin="10,5" Foreground="#000"/>
+
+                <ComboBox x:Name="RecipientList"  Margin="10,5"
+                            Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DockPanel}}}"
+                    ToolTip="Recipient" SelectionChanged="RecipientList_SelectionChanged"   DockPanel.Dock="Top"
+                 >
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding FirstName}"/>
+                                <TextBlock Text=" "/>
+                                <TextBlock Text="{Binding LastName}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <TextBlock Text="Review"  DockPanel.Dock="Top" Margin="10,5" Foreground="#000"/>
+
+                <TextBox x:Name="ReviewTextBox" ToolTip="Your comment" 
+                         Width="{Binding Width, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DockPanel}}}"
+                         BorderThickness="0"
+                         TextWrapping="Wrap" Margin="10,5" Background="{StaticResource WindowBackgroundBrush}"
+                         DockPanel.Dock="Top"/>
+
+
+
+
+            </DockPanel>
+        </DockPanel>
+
+
+
+    </Grid>
+</platform:DialogWindow>

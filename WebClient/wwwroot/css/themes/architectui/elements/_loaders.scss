@@ -1,0 +1,74 @@
+$primary-color: $primary !default;
+$ball-size: 15px !default;
+$margin: 2px !default;
+$line-height: 35px !default;
+$line-width: 4px !default;
+
+
+@mixin global-bg() {
+  background-color: $primary-color;
+}
+
+@mixin global-animation() {
+  animation-fill-mode: both;
+}
+
+@mixin balls() {
+  @include global-bg();
+
+  width: $ball-size;
+  height: $ball-size;
+  border-radius: 100%;
+  margin: $margin;
+}
+
+@mixin lines() {
+  @include global-bg();
+
+  width: $line-width;
+  height: $line-height;
+  border-radius: 2px;
+  margin: $margin;
+}
+
+
+/**
+ * Dots
+ */
+@import './loaders.css/animations/ball-pulse';
+@import './loaders.css/animations/ball-pulse-sync';
+@import './loaders.css/animations/ball-scale';
+@import './loaders.css/animations/ball-rotate';
+@import './loaders.css/animations/ball-clip-rotate';
+@import './loaders.css/animations/ball-clip-rotate-pulse';
+@import './loaders.css/animations/ball-clip-rotate-multiple';
+@import './loaders.css/animations/ball-scale-ripple';
+@import './loaders.css/animations/ball-scale-ripple-multiple';
+@import './loaders.css/animations/ball-beat';
+@import './loaders.css/animations/ball-scale-multiple';
+@import './loaders.css/animations/ball-triangle-trace';
+@import './loaders.css/animations/ball-pulse-rise';
+@import './loaders.css/animations/ball-grid-beat';
+@import './loaders.css/animations/ball-grid-pulse';
+@import './loaders.css/animations/ball-spin-fade-loader';
+@import './loaders.css/animations/ball-spin-loader';
+@import './loaders.css/animations/ball-zig-zag';
+@import './loaders.css/animations/ball-zig-zag-deflect';
+
+/**
+ * Lines
+ */
+@import './loaders.css/animations/line-scale';
+@import './loaders.css/animations/line-scale-random';
+@import './loaders.css/animations/line-scale-pulse-out';
+@import './loaders.css/animations/line-scale-pulse-out-rapid';
+@import './loaders.css/animations/line-spin-fade-loader';
+
+/**
+ * Misc
+ */
+@import './loaders.css/animations/triangle-skew-spin';
+@import './loaders.css/animations/square-spin';
+@import './loaders.css/animations/pacman';
+@import './loaders.css/animations/cube-transition';
+@import './loaders.css/animations/semi-circle-spin';

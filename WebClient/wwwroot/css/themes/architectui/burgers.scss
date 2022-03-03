@@ -1,0 +1,75 @@
+﻿
+.BurgerSlider {
+    display: inline-block;
+}
+
+.Burger {
+    padding: 15px;
+    display: inline-block;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    overflow: visible;
+    outline: 0;
+}
+
+.Burger {
+    padding: 5px;
+    display: inline-block;
+    cursor: pointer;
+    font: inherit;
+    color: inherit;
+    text-transform: none;
+    background-color: transparent;
+    border: 0;
+    margin: 0;
+    overflow: visible;
+    outline: 0;
+}
+
+.BurgerBox {
+    width: 26px;
+    height: 16px;
+    display: inline-block;
+    position: relative;
+}
+
+.BurgerInner {
+    top: 50%;
+    margin-top: -1px;
+}
+
+.BurgerInner, .BurgerInner:before, .BurgerInner:after {
+    position: absolute;
+    width: 100%;
+    background-color: #6c757d;
+    height: 2px;
+    border-radius: 0px;
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: 0.15s;
+    transition-duration: 0.15s;
+    -webkit-transition-timing-function: ease;
+    transition-timing-function: ease;
+    content: '';
+    display: block;
+    top: 7px;
+}
+
+.BurgerSlider .BurgerInner:after {
+    top: 14px;
+}
+
+
+.BurgerSlider .BurgerInner {
+    top: 1px;
+}
+
+
+
+

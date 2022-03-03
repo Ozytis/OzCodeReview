@@ -1,0 +1,392 @@
+﻿/*$secondary: red;*/
+$white: white;
+
+@import "./vars.scss";
+@import "./themes/architectui/base.min.css";
+
+.btn-primary {
+    background-color: $primary !important;
+}
+
+.forest-bg {
+    display: none;
+    /*  background-image: url('../images/ozytis.png');*/
+    background-size: contain;
+    height: 82px;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.app-header__logo {
+    cursor: pointer;
+}
+
+.bg-primary {
+    background-color: $primary !important;
+}
+
+.app-logo {
+    background-image: url('../images/ozytis.png');
+    height: 82px;
+    background-size: contain;
+    background-position: center center;
+    margin-bottom: 24px;
+    background-repeat: no-repeat;
+}
+
+.oz-select {
+    position: relative;
+    width: 100%;
+
+    .selected-option-container {
+        position: relative;
+        width: 100%;
+        display: flex;
+        justify-content: stretch;
+        border: solid 1px $gray-400;
+        cursor: pointer;
+
+        .selected-option {
+            flex: 1;
+            display: flex;
+            align-content: center;
+            align-items: center;
+            padding: 0 9px;
+
+            .placeholder {
+                color: $gray-500;
+            }
+        }
+
+        .options-toggle {
+            padding: 6px 9px;
+        }
+    }
+
+    .options-container {
+        width: 100%;
+        background-color: #fff;
+        padding: 9px 0;
+        border: solid 1px $gray-500;
+        display: none;
+        position: absolute;
+        z-index: +2;
+
+        .filter {
+            border: solid 1px $gray-400;
+            width: calc(100% - 12px);
+            padding: 6px 9px;
+            margin: 1px 6px;
+            box-sizing: border-box;
+        }
+
+        .options-list {
+            list-style: none;
+            padding: 0;
+
+            .list-option {
+                cursor: pointer;
+                padding: 6px 9px;
+
+                &:hover {
+                    background-color: $gray-400;
+                }
+            }
+        }
+    }
+
+    &.show-options {
+        .selected-option-container {
+            border: solid 1px $gray-500;
+        }
+
+        .options-container {
+            display: block;
+        }
+    }
+}
+
+.oz-ps {
+    height: 100%;
+    max-height: 100%;
+    overflow-y: hidden;
+    position: relative;
+    z-index: 15;
+    width: 100%;
+
+    .ps__thumb-y {
+        background-color: $brand;
+    }
+
+    .ps__rail-y:hover > .ps__thumb-y,
+    .ps__rail-y:focus > .ps__thumb-y,
+    .ps__rail-y.ps--clicking .ps__thumb-y {
+        background-color: $brand;
+        width: 11px;
+    }
+}
+
+.app-main__inner {
+    &.blue-bg {
+        background: linear-gradient(to right, #037FB1 0%, #4DBCE9 100%);
+
+        .app-page-title {
+            color: #fff;
+            background: transparent;
+        }
+    }
+
+    &.white-bg {
+        background: #fff;
+    }
+
+    position: relative;
+}
+
+.app-page-title {
+    position: relative;
+
+    &.blue-bg {
+        color: #fff;
+        background: linear-gradient(to right, #037FB1 0%, #4DBCE9 100%);
+    }
+
+    &.brand-bg {
+        color: #fff;
+        background: linear-gradient(to right, darken($brand, 20%), darken($brand, 0%) 100%);
+    }
+
+    &.secondary-bg {
+        color: #fff;
+        background: linear-gradient(to right, $secondary 0%, $secondary 50%, lighten($secondary, 30%) 100%);
+    }
+
+    &.dark-bg {
+        color: #fff;
+        background: linear-gradient(to right, #000 0%, #333 33%, #777 70%, #000 100%)
+    }
+
+    .page-title-icon {
+        width: auto;
+    }
+
+    margin: 0;
+}
+
+.page-title-actions {
+    text-align: right;
+}
+
+.app-authorizing, .app-loading {
+    text-align: center;
+    font-size: 48px;
+    height: 100%;
+}
+
+.app-header-left {
+    width: 331px;
+
+    .logo-src {
+        background: url('../images/delltechnologo.jpg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        /*background-position: right center;*/
+        font-size: 0;
+        width: 331px;
+        height: 50px;
+        /*&:after {
+            content: "Dendryo";
+            font-size: 2rem;
+            position: absolute;
+            top: 0;
+        }*/
+    }
+}
+
+.app-header-right {
+
+    .logo-src {
+        background: url('../images/logo.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        font-size: 0;
+        width: 100px;
+        height: 50px;
+    }
+}
+
+.breadcrumb {
+    display: flex;
+    list-style: none;
+    flex-direction: row;
+    text-align: right;
+    margin-top: 12px !important;
+
+    li {
+        color: $white;
+
+
+
+        & + li::before {
+            color: $white;
+            content: " / ";
+            padding-left: 6px;
+        }
+
+        a {
+            color: $white;
+            text-decoration: none;
+        }
+    }
+}
+
+.metismenu-link {
+    cursor: pointer;
+
+    .metismenu-icon {
+        opacity: 1 !important;
+    }
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.app-wrapper-footer {
+    display: none;
+}
+
+/*****************************************Ozytis**************************************************/
+
+
+$big-tab-size: 16px;
+
+.big-tabs {
+    .ozytis-table {
+        max-height: calc(100vh - 201px - #{$big-tab-size * 4});
+    }
+
+    .card-header {
+        .widget-number {
+            font-size: 1.3rem;
+        }
+
+        & > .nav {
+
+            .nav-item {
+                height: $big-tab-size * 4;
+            }
+
+            .nav-link {
+                padding: $big-tab-size 0;
+
+                &.active {
+                    color: $primary !important;
+                }
+
+                &:hover {
+                    color: $primary-hover !important;
+                }
+            }
+        }
+    }
+}
+
+.ozytis-table {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 200px);
+    overflow: hidden;
+    margin: 0;
+    border-color: $gray-500;
+
+    thead {
+        border: 0;
+        width: 100%;
+
+        th {
+            border: none;
+            font-weight: 500;
+            text-overflow: ellipsis;
+            overflow-x: auto;
+        }
+    }
+
+    tbody {
+        display: block;
+        overflow-y: auto;
+        width: 100%;
+
+        tr {
+            border-color: $gray-300;
+        }
+
+        td {
+            padding-left: 20px;
+            overflow-x: auto;
+            text-overflow: ellipsis;
+            border-bottom-color: $gray-300 !important;
+        }
+    }
+
+    thead, tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+}
+
+.btn i {
+    margin-right: 6px;
+}
+
+.e-dialog {
+    .modal-footer {
+        background: none;
+        border: none;
+    }
+}
+
+/********************************************************Specific*******************************************************/
+.parent-part {
+    right: 15px;
+    position: absolute;
+}
+
+.app-header .app-header__content {
+    padding: 0;
+}
+
+.app-header-right {
+    padding-right: 15px;
+}
+
+.app-header__logo {
+    width: auto !important;
+    padding: 0 15px;
+}
+
+.app-theme-white.app-container {
+    background-color: #fff;
+}
+
+.app-header-left {
+    .logo-src {
+        background: url('../images/ozytis.png');
+        background-size: contain;
+        background-repeat: no-repeat;
+        font-size: 0;
+        width: 350px;
+        height: 50px;
+        display: block !important;
+    }
+}
+
+/*.app-sidebar, .header__pane.ml-auto {
+    display: none;
+}
+*/
+/*.closed-sidebar.fixed-sidebar .app-main__outer {
+    padding: 0;
+}*/

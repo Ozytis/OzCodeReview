@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Ozytis.Common.Core.ClientApi" Version="6.0.68" />
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Api\Api.csproj" />
+	  <ProjectReference Include="..\Common\Common.csproj" />
+	  <ProjectReference Include="..\Entities\Entities.csproj" />
+	</ItemGroup>
+</Project>

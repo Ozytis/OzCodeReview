@@ -1,0 +1,68 @@
+﻿@{
+     string userBg = "/images/fond.jpg";
+}
+
+<div class="logo-src"></div>
+
+<div class="header-btn-lg pr-0">
+    <div class="widget-content p-0">
+        <div class="widget-content-wrapper">
+            <div class="widget-content-left">
+                <Dropdown Direction="Dropdown.DropdownDirection.Left">
+                    <DropdownToggle Color="Color.Link" Class="p-0">
+                        <Icon Name="@FontAwesomeIcons.User" class="avatar-icon rounded d-inline" />
+                    </DropdownToggle>
+                    <DropdownMenu Class="rm-pointers dropdown-menu-lg">
+
+                        <div class="dropdown-menu-header">
+                            <div class="dropdown-menu-header-inner bg-primary">
+                                <div class="menu-header-image opacity-2" style="background-image: url(@(userBg))" />
+                                <div class="menu-header-content text-left">
+                                    <div class="widget-content p-0">
+                                        <div class="widget-content-wrapper">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">
+                                                    @this.User?.FirstName @this.User?.LastName
+                                                </div>
+                                                <div class="widget-subheading opacity-8">
+                                                    @this.User?.Role
+                                                </div>
+                                            </div>
+                                            <div class="widget-content-right mr-2">
+                                                <Button class="btn-pill btn-shadow btn-shine" Color="Color.Warning"
+                                                        Clicked="this.LogOutAsync">
+                                                    Déconnexion
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @*@if (this.IsConnectedAs)
+                        {
+                            <Button Color="Color.Link" Clicked="CancelConnectAsAsync">
+                                Redevenir administrateur
+                            </Button>
+                        }*@
+                        @*<DropdownItem Clicked="@(()=>this.NavigationManager.NavigateTo(Web.Client.Pages.User.MyAccountPage.Url))">
+                            Mon compte
+                            @if (this.IsConnectedAs)
+                            {
+                            <Button Color="Color.Link" Clicked="CancelConnectAsAsync">
+                            Redevenir administrateur
+                            </Button>
+                            }
+                            </DropdownItem>*@
+                    </DropdownMenu>
+                </Dropdown>
+            </div>
+            <div class="widget-content-left  ml-3 header-user-info">
+                <div class="widget-heading">  @this.User?.FirstName @this.User?.LastName</div>
+                <div class="widget-subheading">
+                   @this.User?.Role
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

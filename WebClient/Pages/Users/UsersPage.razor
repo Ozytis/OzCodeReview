@@ -1,0 +1,99 @@
+﻿@using Api;
+
+<PageHeader Icon="fas fa-users">
+    <HeadingContent>
+        <h1>Gestion des utilisateurs</h1>
+    </HeadingContent>
+    <ActionsContent>
+        <Button Color="Color.Light" Icon="@FontAwesomeIcons.Plus" Clicked="()=>{this.ShowUserCreation=true;}">
+            Ajouter un utilisateur
+        </Button>
+    </ActionsContent>
+    <BreadcrumbsContent>
+        <li>
+            <a>
+                Accueil
+            </a>
+        </li>
+        <li>
+            <a>
+                Gestion des utilisateurs
+            </a>
+        </li>
+    </BreadcrumbsContent>
+</PageHeader>
+
+<OzSimpleRemoteTable TModel="UserModel"
+                     TEntity="ApplicationUser"
+                     @ref="this.Table"
+                     Class="ozytis-table"
+                     DefaultSortedColumnIndex="0"
+                     GetModelKey="u=>u.Id"
+                     GetData="this.UsersRepository.GetAllUsersAsync">
+    <ColumnsDefinition>
+        <OzSimpleTableColumn TModel="UserModel"
+                             TEntity="ApplicationUser"
+                             Filter="(user, vals)=>user.LastName.Contains(vals[0] as string)"
+                             Sort="u=>u.LastName">
+            <HeaderDisplay>Nom</HeaderDisplay>
+        </OzSimpleTableColumn>
+        <OzSimpleTableColumn TModel="UserModel"
+                             TEntity="ApplicationUser"
+                             Filter="(user, vals)=>user.FirstName.Contains(vals[0] as string)"
+                             Sort="u=>u.FirstName">
+            <HeaderDisplay>Prénom</HeaderDisplay>
+        </OzSimpleTableColumn>
+        <OzSimpleTableColumn TModel="UserModel" TEntity="ApplicationUser"
+                             Filter="(user, vals)=>user.Email.Contains(vals[0] as string)"
+                             Sort="u=>u.Email">
+            <HeaderDisplay>Email</HeaderDisplay>
+        </OzSimpleTableColumn>
+        <OzSimpleTableColumn TModel="UserModel" TEntity="ApplicationUser">
+            <HeaderDisplay>Actions</HeaderDisplay>
+        </OzSimpleTableColumn>
+    </ColumnsDefinition>
+    <RowContent>
+        <TableRow>
+            <TableRowCell>
+
+                @context.LastName
+
+            </TableRowCell>
+            <TableRowCell>
+                @context.FirstName
+            </TableRowCell>
+            <TableRowCell>
+                <a href="mailto:@context.Email">@context.Email</a>
+            </TableRowCell>
+            <TableRowCell>
+                @* <Button Clicked="()=>this.NavigationManager.NavigateTo(WebClient.Pages.User.UserDetailsPage.GetUrl(context.Id))"
+                    Color="Color.Link"
+                    Icon="@FontAwesomeIcons.Eye"
+                    Class="text-left">
+                    </Button>*@
+                @* <Button Color="Color.Link"
+                    Clicked="@(async ()=> { await this.ConnectAs(context); })"
+                    title="@($"Se connecter comme {context.FirstName} {context.LastName}")">
+                    <Icon IconStyle="IconStyle.FaSolid" Name="@FontAwesomeIcons.Unlock" />
+                    </Button>*@
+
+                <Button Color="Color.Link"
+                        Clicked="@(async ()=> { await this.DeleteAsync(context); })"
+                        Icon="@FontAwesomeIcons.Trash">
+                    Supprimer
+                </Button>
+            </TableRowCell>
+        </TableRow>
+    </RowContent>
+
+</OzSimpleRemoteTable>
+
+@if (this.ShowUserCreation)
+{
+    <AddUserForm OnCancelled="()=>{this.ShowUserCreation=false; this.StateHasChanged();}"
+             OnSuccess="user=>{
+            this.Table.AddEntity(user);
+            this.ShowUserCreation=false;
+            this.StateHasChanged();
+        }" />
+}

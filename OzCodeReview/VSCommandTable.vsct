@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<Extern href="stdidcmd.h"/>
+	<Extern href="vsshlids.h"/>
+	<Include href="KnownImageIds.vsct"/>
+	<Include href="VSGlobals.vsct"/>
+
+	<Commands package="OzCodeReview">
+		<Groups>
+			<Group guid="OzCodeReview" id="OzMenuGroup" priority="0x0001">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+			</Group>
+		</Groups>
+
+		<!--This section defines the elements the user can interact with, like a menu command or a button
+        or combo box in a toolbar. -->
+		<Buttons>
+			<Button guid="OzCodeReview" id="InsertCodeCommentCommand" priority="0x0100" type="Button">
+				<Parent guid="OzCodeReview" id="OzMenuGroup" />
+				<Icon guid="ImageCatalogGuid" id="MessageBubble" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>Insert review</ButtonText>
+					<LocCanonicalName>.OzCodeReview.InsertComment</LocCanonicalName>
+				</Strings>
+			</Button>
+
+			<Button guid="OzCodeReview" id="OpenCodeCommentsCommand" priority="0x0200" type="Button">
+				<Parent guid="VSMainMenu" id="View.DevWindowsGroup" />
+				<Icon guid="ImageCatalogGuid" id="NewListQuery" />
+				<CommandFlag>IconIsMoniker</CommandFlag>
+				<Strings>
+					<ButtonText>View code reviews</ButtonText>
+					<LocCanonicalName>.OzCodeReview.OpenComments</LocCanonicalName>
+				</Strings>
+			</Button>
+		</Buttons>
+	</Commands>
+	<KeyBindings>
+		<KeyBinding guid="OzCodeReview" id="InsertCodeCommentCommand" editor="guidVSStd97" key1="R" mod1="Control Alt"/>
+	</KeyBindings>
+	<Symbols>
+		<GuidSymbol name="OzCodeReview" value="{a4621af1-3bc8-4167-a1d1-408cdded0f0c}">
+			<IDSymbol name="OzMenuGroup" value="0x0001" />
+			<IDSymbol name="InsertCodeCommentCommand" value="0x0100" />
+			<IDSymbol name="OpenCodeCommentsCommand" value="0x0200" />
+		</GuidSymbol>
+	</Symbols>
+</CommandTable>

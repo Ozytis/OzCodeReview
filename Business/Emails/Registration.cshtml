@@ -1,0 +1,8 @@
+﻿@inherits Ozytis.Common.Core.RazorTemplating.RazorEngineBaseTemplate<Business.Emails.RegistrationModel>
+
+<p>
+    Hello @Model.UserFirstName @Model.UserLastName,
+</p>
+<p>
+   A new OzCode review account has been created. You can connect and define your password using this link : <a href="@Model.Link" title="Reinit password">@Model.Link</a>.
+ </p>

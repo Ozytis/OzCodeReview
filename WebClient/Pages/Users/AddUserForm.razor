@@ -1,0 +1,54 @@
+﻿<Modal Size="Modal.ModalSize.Large" OnClosing="@(async () => await this.OnCancelled.InvokeAsync() )">
+    <Header>
+        User creation
+    </Header>
+    <Content>
+        <Container Class="bg-white p-4" Fluid="true">
+
+            <ErrorsSummary Errors="this.Errors" />
+
+            <Row Class="mt-2">
+                <Column>
+                    <Field>
+                        <Label For="lastname">Last name</Label>
+                        <TextEdit @bind-Value=@this.Model.LastName PlaceHolder="Last name" id="lastname" />
+                    </Field>
+                </Column>
+                <Column>
+                    <Field>
+                        <Label For="firstname">First name</Label>
+                        <TextEdit @bind-Value=@this.Model.FirstName PlaceHolder="First name" id="firstname" />
+                    </Field>
+                </Column>
+            </Row>
+            <Row Class="mt-2">
+                <Column>
+                    <Field>
+                        <Label For="email">E-mail</Label>
+                        <TextEdit @bind-Value=@this.Model.Email PlaceHolder="E-mail" id="email" />
+                    </Field>
+                </Column>
+            </Row>
+
+
+        </Container>
+    </Content>
+    <Footer>
+        <div class="text-center">
+            <Button Color="Color.Link"
+                    IsOutlined="true"
+                    Clicked="@(async () => await this.OnCancelled.InvokeAsync() )">
+                <Icon Name="@FontAwesomeIcons.Undo" />
+                Annuler
+            </Button>
+            <Button Color="Color.Primary"                    
+                    Clicked="@ProcessAsync"
+                    disabled="@{
+                string.IsNullOrEmpty(this.Model.LastName) || string.IsNullOrEmpty(this.Model.FirstName) || string.IsNullOrEmpty(this.Model.Email)
+ }">
+                <Loader IsLoading="this.IsProcessing" />
+                Enregistrer
+            </Button>
+        </div>
+    </Footer>
+</Modal>

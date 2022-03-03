@@ -1,0 +1,45 @@
+﻿@layout AnonymousLayout
+
+<div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
+
+    <div class="app-logo big-logo">
+    </div>
+
+    <h4 class="mb-4">
+        <span>Welcome to OzCode review. In order to finalize your registration please define your account password below :</span>
+    </h4>
+
+    <div>
+        <ErrorsSummary errors="@this.Errors" />
+
+        <SfTextBox Type="InputType.Email" name="email"
+                   CssClass="white-placeholder my-2"
+                   Enabled="false"
+                   Placeholder="Your email address"
+                   @bind-Value="this.Email"
+                   FloatLabelType="FloatLabelType.Auto" />
+
+        <SfTextBox Type="InputType.Password" name="NewPassword"
+                   CssClass="white-placeholder mb-2"
+                   Placeholder="Your password"
+                   @bind-Value="this.NewPassword"
+                   FloatLabelType="FloatLabelType.Auto" />
+
+        <SfTextBox Type="InputType.Password"
+                   CssClass="white-placeholder mb-2"
+                   name="NewPasswordConfirmation"
+                   Placeholder="Please confirm your password" FloatLabelType="FloatLabelType.Auto"
+                   @bind-Value="this.NewPasswordConfirmation" />
+
+
+        <div class="text-center py-2">
+            <Button Color="Color.Primary" Size="Button.ButtonSize.Large" Disabled="this.IsProcessing" @onclick="this.ProcessAsync">
+                <Loader IsLoading="this.IsProcessing" />
+                Process
+            </Button>
+        </div>
+
+
+
+    </div>
+</div>

@@ -1,0 +1,55 @@
+﻿@layout AnonymousLayout
+
+<div class="mx-auto app-login-box col-sm-12 col-md-10 col-lg-9">
+
+    <div class="app-logo big-logo">
+
+    </div>
+
+    <h4>
+        <span class="d-block mb-2">Welcome to Ozytis Code review</span>
+        <span>Please connect.</span>
+    </h4>
+
+    <Row Class="divider" />
+    <div>
+        <ErrorsSummary errors="@this.Errors" />
+
+        <Row>
+            <Column Size="6">
+                <Field>
+                    <Label For="exampleEmail">Email address</Label>
+                    <SfTextBox Type="InputType.Email"
+                              name="email" id="exampleEmail" Placeholder="You email address..."
+                              @bind-Value="this.Email" />
+                </Field>
+            </Column>
+            <Column Size="6">
+                <Field>
+                    <Label For="examplePassword">Password</Label>
+                    <SfTextBox Type="InputType.Password" name="password" id="examplePassword"
+                              Placeholder="Your password..." @bind-Value="this.Password" />
+                </Field>
+            </Column>
+        </Row>
+        
+        <Row Class="divider" />
+        <div class="d-flex align-items-center">
+            <div class="ml-auto">
+                <Button Clicked="@(()=> this.NavigateTo("password-recovery"))"
+                        Size="Button.ButtonSize.Large" Class="btn-link">
+                    Password recovery
+                </Button>
+                <Button Color="Color.Primary" Size="Button.ButtonSize.Large"
+                        Clicked="this.SubmitLoginAsync"
+                        Disabled="this.IsSubmitting"
+                        IsLoading="this.IsSubmitting"
+                        Icon="@FontAwesomeIcons.Check">
+                    Connect
+                </Button>
+            </div>
+        </div>
+
+
+    </div>
+</div>

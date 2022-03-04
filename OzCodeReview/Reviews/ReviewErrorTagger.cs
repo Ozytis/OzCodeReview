@@ -28,8 +28,10 @@ namespace OzCodeReview.Reviews
         public ITextSnapshot CurrentSnapshot { get; }
 
         public ReviewTagsUtilities ReviewTagsUtilities { get; }
+      
         public ReviewErrorsFactory Factory { get; }
 
+        
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
 
         public IEnumerable<ITagSpan<ReviewErrorTag>> GetTags(NormalizedSnapshotSpanCollection spans)

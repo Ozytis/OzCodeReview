@@ -47,7 +47,9 @@ namespace OzCodeReview.ClientApi
 
         public async Task LoadUsersAsync()
         {
-            this.Users = (await this.GetAllUsersAsync()).ToList();
+            var users = await this.GetAllUsersAsync();
+
+            this.Users = users?.ToList();
             this.OnUsersChanged?.Invoke(this, this.Users);
         }
     }

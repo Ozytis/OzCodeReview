@@ -13,9 +13,13 @@ namespace Web
         public static void Main(string[] args)
         {
             IHostBuilder builder = Host.CreateDefaultBuilder(args);
-            builder.ConfigureAppConfiguration(config =>
+         
+            builder.ConfigureAppConfiguration((hostContext, config) =>
             {
-                config.AddUserSecrets<Program>();
+                if (hostContext.HostingEnvironment.IsDevelopment())
+                {
+                    config.AddUserSecrets<Program>();
+                }
             });
 
             builder.ConfigureWebHostDefaults(webBuilder =>

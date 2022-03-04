@@ -1,0 +1,13 @@
+﻿@inherits Ozytis.Common.Core.RazorTemplating.RazorEngineBaseTemplate<Business.Emails.ReviewUpdatedModel>
+
+<p>
+    Hello @Model.Recipient.FirstName @Model.Recipient.LastName,
+</p>
+
+<p>
+    @Model.Commentator.FirstName @Model.Commentator.LastName has updated a code review on @Model.Review.FileName (Solution : @Model.Review.SolutionName / Project @Model.Review.ProjectPath / Branch : @Model.Review.Branch)
+</p>
+
+<p>
+    Best regards
+</p>

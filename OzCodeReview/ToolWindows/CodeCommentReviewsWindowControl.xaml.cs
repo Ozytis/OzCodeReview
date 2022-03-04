@@ -62,21 +62,35 @@ namespace OzCodeReview
             }
         }
 
-        private void CodeCommentReviewsWindowControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+#pragma warning disable VSTHRD100 // Avoid async void methods
+        private async void CodeCommentReviewsWindowControl_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+#pragma warning restore VSTHRD100 // Avoid async void methods
         {
-            this.LoadReviews(this.ReviewsService.Reviews);
+            string solutionName = (await VS.Solutions.GetCurrentSolutionAsync()).Name;
+
+            if (this.ReviewsService?.Reviews == null)
+            {
+                await this.ReviewsService.LoadReviewsAsync(solutionName);
+            }
+
+            await this.LoadReviewsAsync(this.ReviewsService.Reviews);
         }
 
-        private void ReviewsService_OnReviewChanged(object sender, System.Collections.Generic.IEnumerable<ClientApi.Models.Review> reviews)
+#pragma warning disable VSTHRD100 // Avoid async void methods
+        private async void ReviewsService_OnReviewChanged(object sender, System.Collections.Generic.IEnumerable<ClientApi.Models.Review> reviews)
+#pragma warning restore VSTHRD100 // Avoid async void methods
         {
-            this.LoadReviews(reviews);
+            await this.LoadReviewsAsync(reviews);
         }
 
-        private void LoadReviews(IEnumerable<ClientApi.Models.Review> reviews)
+        private async Task LoadReviewsAsync(IEnumerable<ClientApi.Models.Review> reviews)
         {
+            await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
+
             this.Reviews.Clear();
 
-            foreach (var review in reviews.OrderByDescending(r => r.CreationDate))
+            foreach (var review in reviews.Where(r => r.Status < ClientApi.Models.ReviewStatus.Closed)
+                .OrderByDescending(r => r.CreationDate))
             {
                 this.Reviews.Add(new ReviewInfo
                 {
@@ -101,6 +115,7 @@ namespace OzCodeReview
         }
 
         public ReviewsService ReviewsService { get; }
+
         public UsersService UsersService { get; }
 
         private void button1_Click(object sender, RoutedEventArgs e)
@@ -110,15 +125,19 @@ namespace OzCodeReview
 
         public ObservableCollection<ReviewInfo> Reviews { get; set; } = new();
 
+#pragma warning disable VSTHRD100 // Avoid async void methods
         private async void EditTextBlock_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+
         {
             EditReviewWindow editReviewWindow = new EditReviewWindow();
             await editReviewWindow.InitializeAsync((sender as TextBlock)?.DataContext as ReviewInfo);
             editReviewWindow.ShowModal();
         }
 
+#pragma warning disable VSTHRD100 // Avoid async void methods
         private async void NavigateTextBlock_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+#pragma warning restore VSTHRD100 // Avoid async void methods
             ReviewInfo review = (sender as TextBlock)?.DataContext as ReviewInfo;
 
             string solutionDir = Path.GetDirectoryName(VS.Solutions.GetCurrentSolution().FullPath);
@@ -135,6 +154,12 @@ namespace OzCodeReview
             textSelection.GotoLine(review.StartLineNumber, false);
 
             documentView.TextView.Caret.MoveTo(new SnapshotPoint(documentView.TextView.TextSnapshot, start));
+        }
+
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {           
+            string solutionName = (await VS.Solutions.GetCurrentSolutionAsync()).Name;
+            await this.ReviewsService.LoadReviewsAsync(solutionName);
         }
     }
 }

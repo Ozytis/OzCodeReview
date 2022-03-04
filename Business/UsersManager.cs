@@ -81,7 +81,7 @@ namespace Business
 
             PasswordResetModel model = new PasswordResetModel { Link = link, UserFirstName = user.FirstName, UserLastName = user.LastName };
 
-            string html = await this.DynamicRazorEngine.GetHtmlAsync($"Business,Business.Emails.PasswordResetEmail.cshtml", model);
+            string html = await this.DynamicRazorEngine.GetHtmlAsync($"Business,Business.Emails.PasswordReset.cshtml", model);
             MimeMessage mail = new MimeMessage();
 
 

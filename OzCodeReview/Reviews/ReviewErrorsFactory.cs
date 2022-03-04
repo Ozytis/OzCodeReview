@@ -13,17 +13,20 @@ namespace OzCodeReview.Reviews
     {
         private static List<ReviewErrorTag> currentErrors = new();
 
-        internal ReviewErrorsFactory(string solutionDir, ReviewErrorTagProvider errorProvider)
+        internal ReviewErrorsFactory(string solutionDir, ReviewErrorTagProvider errorProvider, string filePath)
         {
             this.SolutionDir = solutionDir;
             this.ErrorProvider = errorProvider;
+            this.FilePath = filePath;
             this.CurrentSnapshot = new ReviewErrorSnapshot(0, currentErrors, this.SolutionDir);
         }
 
         public string SolutionDir { get; }
        
         internal ReviewErrorTagProvider ErrorProvider { get; }
-
+       
+        public string FilePath { get; }
+        
         internal ReviewErrorSnapshot CurrentSnapshot { get; private set; }
 
 

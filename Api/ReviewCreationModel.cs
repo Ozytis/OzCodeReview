@@ -19,10 +19,7 @@ namespace Api
         public string Commit { get; set; }
 
         public string Comment { get; set; }
-
-        [Required, MaxLength(ApplicationUser.IdMaxLength)]
-        public string CommentatorId { get; set; }
-
+            
         public int StartLineNumber { get; set; }
 
         public int EndLineNumber { get; set; }

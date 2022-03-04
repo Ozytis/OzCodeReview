@@ -8,6 +8,7 @@ using Microsoft.VisualStudio.Utilities;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
+using System.Linq;
 
 namespace OzCodeReview.Reviews
 {
@@ -20,8 +21,8 @@ namespace OzCodeReview.Reviews
     {
         private const string ozCodeReviewDataSource = "SpellChecker";
 
-        private readonly List<ITableEntriesSnapshotFactory> errorListFactories = new List<ITableEntriesSnapshotFactory>();
-        
+        private readonly List<ReviewErrorsFactory> errorListFactories = new List<ReviewErrorsFactory>();
+
         private readonly List<ReviewErrorSinkManager> reviewErrorSinkManagers = new List<ReviewErrorSinkManager>();
 
         [ImportingConstructor]
@@ -30,13 +31,15 @@ namespace OzCodeReview.Reviews
             this.Provider = provider;
             this.ReviewTagsUtilities = reviewTagsUtilities;
 
-            this.ErrorTableManager = provider.GetTableManager(StandardTables.ErrorsTable);
+            // TODO next version
 
-            this.ErrorTableManager.AddSource(this, StandardTableColumnDefinitions.DetailsExpander,
-                                                  StandardTableColumnDefinitions.ErrorSeverity, StandardTableColumnDefinitions.ErrorCode,
-                                                  StandardTableColumnDefinitions.ErrorSource, StandardTableColumnDefinitions.BuildTool,
-                                                  StandardTableColumnDefinitions.ErrorSource, StandardTableColumnDefinitions.ErrorCategory,
-                                                  StandardTableColumnDefinitions.Text, StandardTableColumnDefinitions.DocumentName, StandardTableColumnDefinitions.Line, StandardTableColumnDefinitions.Column);
+            //this.ErrorTableManager = provider.GetTableManager(StandardTables.ErrorsTable);
+
+            //this.ErrorTableManager.AddSource(this, StandardTableColumnDefinitions.DetailsExpander,
+            //                                      StandardTableColumnDefinitions.ErrorSeverity, StandardTableColumnDefinitions.ErrorCode,
+            //                                      StandardTableColumnDefinitions.ErrorSource, StandardTableColumnDefinitions.BuildTool,
+            //                                      StandardTableColumnDefinitions.ErrorSource, StandardTableColumnDefinitions.ErrorCategory,
+            //                                      StandardTableColumnDefinitions.Text, StandardTableColumnDefinitions.DocumentName, StandardTableColumnDefinitions.Line, StandardTableColumnDefinitions.Column);
         }
 
         public string DisplayName
@@ -48,6 +51,7 @@ namespace OzCodeReview.Reviews
         }
 
         public ITableManager ErrorTableManager { get; }
+
         public string Identifier
         {
             get
@@ -59,6 +63,7 @@ namespace OzCodeReview.Reviews
         public ITableManagerProvider Provider { get; }
 
         public ReviewTagsUtilities ReviewTagsUtilities { get; }
+
         public string SourceTypeIdentifier
         {
             get
@@ -98,9 +103,24 @@ namespace OzCodeReview.Reviews
                 filePath = textDocument.FilePath;
             }
 
-            var factory = new ReviewErrorsFactory(solutionDir, this);
+            ReviewErrorsFactory factory = null;
 
-            this.AddErrorListFactory(factory);
+            lock (this.errorListFactories)
+            {
+                var existing = errorListFactories.FirstOrDefault(f => f.FilePath == filePath);
+
+                if (existing==null)
+                {
+
+                    factory = new ReviewErrorsFactory(solutionDir, this, filePath);
+
+                    this.AddErrorListFactory(factory);
+                }
+                else
+                {
+                    factory = existing;
+                }
+            }
 
             return new ReviewErrorTagger(filePath, buffer.CurrentSnapshot, this.ReviewTagsUtilities, factory) as ITagger<T>;
         }
@@ -128,7 +148,7 @@ namespace OzCodeReview.Reviews
             }
         }
 
-        internal void AddErrorListFactory(ITableEntriesSnapshotFactory factory)
+        internal void AddErrorListFactory(ReviewErrorsFactory factory)
         {
             lock (this.reviewErrorSinkManagers)
             {
@@ -142,7 +162,7 @@ namespace OzCodeReview.Reviews
             }
         }
 
-        public void RemoveErrorListFactory(ITableEntriesSnapshotFactory factory)
+        public void RemoveErrorListFactory(ReviewErrorsFactory factory)
         {
             lock (this.reviewErrorSinkManagers)
             {

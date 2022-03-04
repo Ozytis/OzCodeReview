@@ -15,8 +15,19 @@
              Background="#fff"
              Name="MyToolWindow">
     <Grid VerticalAlignment="Stretch">
-       
-            <ListView x:Name="ItemsList" Margin="0" ItemsSource="{Binding Path=Reviews}" BorderThickness="0" Padding="0" SelectionMode="Single">
+        <DockPanel>
+            <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Stretch" 
+                       Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"
+                       VerticalAlignment="Bottom"   LastChildFill="False">
+                <Button DockPanel.Dock="Right" Padding="10,5" 
+                        BorderThickness="0"
+                        Cursor="Hand"
+                        Click="RefreshButton_Click"
+                    Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}">
+                    Refresh
+                </Button>
+            </DockPanel>
+            <ListView DockPanel.Dock="Top" x:Name="ItemsList" Margin="0" ItemsSource="{Binding Path=Reviews}" BorderThickness="0" Padding="0" SelectionMode="Single">
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">                       
                         <Setter Property="BorderThickness" Value="0,0,0,0" />
@@ -78,6 +89,6 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-       
+        </DockPanel>
     </Grid>
 </UserControl>

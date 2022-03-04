@@ -11,8 +11,8 @@ namespace OzCodeReview
         public const string Name = "OzCodeReview";
         public const string Description = @"This extension allows you to create code review directly inside Visual Studio and assign them to an user. This user can also see them directly inside Visual Studio and comment or update their status.";
         public const string Language = "en-US";
-        public const string Version = "1.0";
+        public const string Version = "1.0.6";
         public const string Author = "Gregoire Larreur";
-        public const string Tags = "";
+        public const string Tags = "code-review code peer-review";
     }
 }

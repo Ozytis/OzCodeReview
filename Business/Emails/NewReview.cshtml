@@ -1,0 +1,31 @@
+﻿@inherits Ozytis.Common.Core.RazorTemplating.RazorEngineBaseTemplate<Business.Emails.NewReviewModel>
+
+<p>
+    Hello @Model.Review.Recipient.FirstName @Model.Review.Recipient.LastName,
+</p>
+
+<p>
+    @Model.Review.Commentator.FirstName @Model.Review.Commentator.LastName has perform a code review on @Model.Review.FileName (Solution : @Model.Review.SolutionName / Project @Model.Review.ProjectPath / Branch : @Model.Review.Branch)
+</p>
+
+<p>
+    You have been assigned to it and its severity is @switch (Model.Review.Type)
+    {
+        case Entities.ReviewType.Comment:
+            <strong>comment</strong>
+            break;
+        case Entities.ReviewType.ShouldFix:
+            <strong>should fix</strong>
+            break;
+        case Entities.ReviewType.MustFix:
+            <strong>must fix</strong>
+            break;
+        default:
+            <strong>not set</strong>
+            break;
+    }
+</p>
+
+<p>
+    Best regards
+</p>

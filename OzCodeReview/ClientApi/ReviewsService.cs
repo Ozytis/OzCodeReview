@@ -46,8 +46,17 @@ namespace OzCodeReview.ClientApi
 
         internal async Task LoadReviewsAsync(string solutionName)
         {
-            this.Reviews = (await this.GetAllReviewsAsync(solutionName)).ToList();
-            this.OnReviewChanged?.Invoke(this, this.Reviews);    
+            var reviews = await this.GetAllReviewsAsync(solutionName);
+            this.Reviews = reviews?.ToList();
+
+            try
+            {
+                this.OnReviewChanged?.Invoke(this, this.Reviews);
+            }
+            catch
+            {
+
+            }
         }
     }
 }

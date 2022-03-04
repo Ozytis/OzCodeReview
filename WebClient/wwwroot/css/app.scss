@@ -9,12 +9,14 @@ $white: white;
 }
 
 .forest-bg {
-    display: none;
-    /*  background-image: url('../images/ozytis.png');*/
-    background-size: contain;
-    height: 82px;
+    background-image: url('../images/code-g04711fa2b_1280.jpg');
+    background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
+}
+
+#blazor-error-ui {
+    display: none;
 }
 
 .app-header__logo {
@@ -369,6 +371,12 @@ $big-tab-size: 16px;
 
 .app-theme-white.app-container {
     background-color: #fff;
+}
+
+.app-container {
+    & > div.pb-3 {
+        padding-bottom: 0 !important;
+    }
 }
 
 .app-header-left {

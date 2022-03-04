@@ -67,8 +67,11 @@
                             <ContentPresenter
                                 Name="ContentSite"
                                 IsHitTestVisible="False" 
-                                Margin="3,15,23,15"
+                                Margin="5,10,23,10"
                                 VerticalAlignment="Center"
+                                Content="{TemplateBinding ComboBox.SelectionBoxItem}" 
+                                ContentTemplate="{TemplateBinding ComboBox.SelectionBoxItemTemplate}" 		
+                                ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                 HorizontalAlignment="Left" />
                             <TextBox x:Name="PART_EditableTextBox"
                                 Style="{x:Null}" 

@@ -10,8 +10,8 @@ namespace OzCodeReview.ClientApi
     public class BaseService
     {
         public static string BaseUrl { get; set; }
-                   
-        public static EventHandler OnAuthorizeRequired { get; set; }
+
+        public static Func<Task<bool>> OnAuthorizeRequired { get; set; }
 
         public static string BearerToken { get; private set; } = null;
 
@@ -37,7 +37,7 @@ namespace OzCodeReview.ClientApi
         {
             Uri uri = url.StartsWith("http") ? new Uri(url) : new Uri(BaseUrl + url);
 
-            return await this.GetAsync<T>(uri, anonymous,  encrypted, deserializeInheritance);
+            return await this.GetAsync<T>(uri, anonymous, encrypted, deserializeInheritance);
         }
 
         protected async Task<T> GetAsync<T>(Uri uri, bool anonymous = false, bool encrypted = false, bool deserializeInheritance = false)
@@ -45,7 +45,12 @@ namespace OzCodeReview.ClientApi
             try
             {
                 using HttpClient httpClient = BaseService.GetHttpClient(anonymous);
-                using HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);                
+                using HttpRequestMessage requestMessage = new HttpRequestMessage(HttpMethod.Get, uri);
+
+                if (string.IsNullOrEmpty(BaseUrl))
+                {
+                    return default;
+                }
 
                 using HttpResponseMessage result = await httpClient.SendAsync(requestMessage);
                 string json = await result.Content.ReadAsStringAsync();
@@ -79,7 +84,16 @@ namespace OzCodeReview.ClientApi
 
                 if (result.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
-                    OnAuthorizeRequired?.Invoke(this, new EventArgs());
+                    if (OnAuthorizeRequired != null)
+                    {
+                        var replay = await OnAuthorizeRequired?.Invoke();
+
+                        if (replay)
+                        {
+                            return await this.GetAsync<T>(uri, anonymous, encrypted, deserializeInheritance);
+                        }
+                    }
+
                     return default;
                 }
 
@@ -98,7 +112,8 @@ namespace OzCodeReview.ClientApi
             }
             catch (HttpRequestException)
             {
-                throw;
+                await VS.MessageBox.ShowErrorAsync($"Error contacting ozreview server {BaseService.BaseUrl}. Please checks its availability");
+                return default;
             }
             catch (Exception ex)
             {
@@ -157,7 +172,7 @@ namespace OzCodeReview.ClientApi
                 }
             }
             catch (HttpRequestException ex)
-            {               
+            {
                 return new OperationResult<T>
                 {
                     Success = false,
@@ -341,9 +356,9 @@ namespace OzCodeReview.ClientApi
             httpClient.Timeout = TimeSpan.FromMilliseconds(400000);
 
             return await httpClient.DeleteAsync(url);
-        }     
+        }
 
-        
+
 
         private string Decrypt(string encrypted)
         {

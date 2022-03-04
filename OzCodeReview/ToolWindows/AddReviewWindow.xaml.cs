@@ -1,4 +1,5 @@
 ﻿using Microsoft;
+using Microsoft.VisualStudio.ComponentModelHost;
 using Microsoft.VisualStudio.PlatformUI;
 
 using OzCodeReview.ClientApi;
@@ -46,8 +47,10 @@ namespace OzCodeReview.ToolWindows
         {
             this.Package = asyncPackage;
 
-            this.UsersService = await Package.GetServiceAsync(typeof(UsersService)) as UsersService;
-            this.ReviewsService = await Package.GetServiceAsync(typeof(ReviewsService)) as ReviewsService;
+            var componentModel = (IComponentModel)Microsoft.VisualStudio.Shell.Package.GetGlobalService(typeof(SComponentModel));
+
+            this.UsersService = componentModel.GetService<UsersService>();
+            this.ReviewsService = componentModel.GetService<ReviewsService>();
 
             Assumes.Present(this.UsersService);
             Assumes.Present(this.ReviewsService);

@@ -1,0 +1,51 @@
+﻿<Card>
+    <CardHeader>
+        <Icon Name="@FontAwesomeIcons.AddressCard" Class="header-icon" />
+        My profile
+        <CardActions>
+            <Button Class="btn-icon btn-icon-only" Color="Color.Link" Clicked="@(()=>this.ChangeEditingMode())">
+                <Icon Name="@FontAwesomeIcons.Edit" />
+            </Button>
+        </CardActions>
+    </CardHeader>
+    <CardBody>
+        <ErrorsSummary Errors="this.Errors" />
+
+        @if (this.IsEditing)
+        {
+
+            <SfTextBox FloatLabelType="FloatLabelType.Auto" Placeholder="Lastname" @bind-Value="this.UpdateModel.LastName" />
+            <SfTextBox FloatLabelType="FloatLabelType.Auto" Placeholder="Firstname" @bind-Value="this.UpdateModel.FirstName" />
+        }
+        else
+        {
+
+            <Row>
+
+                <dl>
+                    <dt>Lastname</dt>
+                    <dd>@this.UserModel.LastName</dd>
+
+                    <dt>Firstname</dt>
+                    <dd>@this.UserModel.FirstName</dd>
+
+                </dl>
+
+            </Row>
+        }
+
+    </CardBody>
+
+    @if (this.IsEditing)
+    {
+        <CardFooter Class="d-block text-right">
+            <Button Color="Color.Link" Clicked="@(()=>this.ChangeEditingMode())">
+                <Icon Name="@FontAwesomeIcons.Undo" /> Cancel
+            </Button>
+
+            <Button Color="Color.Secondary" Clicked="@(()=>this.SaveAsync())">
+                <Loader UsualIcon="@FontAwesomeIcons.Check" IsLoading="this.IsUpdating" /> Process
+            </Button>
+        </CardFooter>
+    }
+</Card>

@@ -71,5 +71,26 @@ namespace ClientApi
 			return result;
 		}
 
+		public async Task<OperationResult<UserModel>> UpdateMyAccountAsync(UserUpdateModel model, Expression<Action> onConnectionRetrievedCallBack = null)
+		{
+			string url = $"api/auth/myaccount";
+			var result = await this.PutAsync<UserModel>(url, model, onConnectionRetrievedCallBack: onConnectionRetrievedCallBack);
+			return result;
+		}
+
+		public async Task<OperationResult<object>> RequestEmailChangeAsync(EmailUpdateModel model, Expression<Action> onConnectionRetrievedCallBack = null)
+		{
+			string url = $"api/auth/email";
+			var result = await this.PutAsync<object>(url, model, onConnectionRetrievedCallBack: onConnectionRetrievedCallBack);
+			return result;
+		}
+
+		public async Task<OperationResult<object>> UpdateMyPasswordAsync(PasswordUpdateModel model, Expression<Action> onConnectionRetrievedCallBack = null)
+		{
+			string url = $"api/auth/mypassword";
+			var result = await this.PutAsync<object>(url, model, onConnectionRetrievedCallBack: onConnectionRetrievedCallBack);
+			return result;
+		}
+
 	}
 }

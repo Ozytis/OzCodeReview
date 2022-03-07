@@ -156,7 +156,9 @@ namespace OzCodeReview
             documentView.TextView.Caret.MoveTo(new SnapshotPoint(documentView.TextView.TextSnapshot, start));
         }
 
+#pragma warning disable VSTHRD100 // Avoid async void methods
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)
+#pragma warning restore VSTHRD100 // Avoid async void methods
         {           
             string solutionName = (await VS.Solutions.GetCurrentSolutionAsync()).Name;
             await this.ReviewsService.LoadReviewsAsync(solutionName);

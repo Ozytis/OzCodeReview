@@ -46,9 +46,9 @@ namespace Business
         }
 
         public DataContext DataContext { get; private set; }
-      
+
         public DynamicRazorEngine DynamicRazorEngine { get; }
-        
+
         public IConfiguration Configuration { get; private set; }
 
         public IQueryable<ApplicationUser> SelectAllUsers(params Expression<Func<ApplicationUser, object>>[] includes)
@@ -146,7 +146,7 @@ namespace Business
 
             mail.To.Add(new MailboxAddress($"{user.FirstName} {user.LastName}", user.Email));
             await mail.SendWithSmtpAsync();
-          
+
             return dbUser;
         }
 
@@ -162,6 +162,61 @@ namespace Business
 
             this.DataContext.Users.Remove(user);
 
+            await this.DataContext.SaveChangesAsync();
+        }
+
+        public async Task<ApplicationUser> UpdateUserSelfAccountAsync(ApplicationUser user, string currentUserLogin)
+        {
+            var dbUser = await this.FindByNameAsync(currentUserLogin);
+
+            if (dbUser == null)
+            {
+                return null;
+            }
+
+            dbUser.FirstName = user.FirstName;
+            dbUser.LastName = user.LastName;
+
+            await this.SaveChangesAsync();
+
+            return dbUser;
+        }
+
+        public async Task RequestEmailChangeAsync(ApplicationUser user, string emailAddress)
+        {
+            if (user == null)
+            {
+                throw new BusinessException("unknown email");
+            }
+
+            string token = await this.GenerateChangeEmailTokenAsync(user, emailAddress);
+
+            Console.WriteLine($"{user.Email} - {emailAddress} {token}");
+
+            string link = $"{this.Configuration["Data:Network:BaseUrl"]}confirm-email-change?token={WebUtility.UrlEncode(token)}&email={WebUtility.UrlEncode(emailAddress)}";
+
+            var model = new EmailChangeRequestModel
+            {
+                User = user,
+                Link = link
+            };
+
+            string html = await this.DynamicRazorEngine.GetHtmlAsync($"Business,Business.Emails.EmailChangeRequest.cshtml", model);
+
+            MimeMessage email = new MimeMessage();
+            email.From.Add(new MailboxAddress(this.Configuration["Data:Emails:DefaultSenderName"], this.Configuration["Data:Emails:DefaultSenderEmail"]));
+
+
+            email.To.Add(new MailboxAddress($"{user.FirstName} {user.LastName}", emailAddress));
+
+            email.Subject = "OzCode Review - Change email request";
+            email.AddBody(null, html);
+
+            await email.SendWithSmtpAsync();
+        }
+
+        public async Task SaveChangesAsync()
+        {
             await this.DataContext.SaveChangesAsync();
         }
     }

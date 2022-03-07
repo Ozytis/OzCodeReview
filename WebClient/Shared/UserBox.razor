@@ -1,5 +1,5 @@
 ﻿@{
-     string userBg = "/images/fond.jpg";
+    string userBg = "/images/fond.jpg";
 }
 
 <div class="logo-src"></div>
@@ -39,28 +39,16 @@
                                 </div>
                             </div>
                         </div>
-                        @*@if (this.IsConnectedAs)
-                        {
-                            <Button Color="Color.Link" Clicked="CancelConnectAsAsync">
-                                Redevenir administrateur
-                            </Button>
-                        }*@
-                        @*<DropdownItem Clicked="@(()=>this.NavigationManager.NavigateTo(Web.Client.Pages.User.MyAccountPage.Url))">
-                            Mon compte
-                            @if (this.IsConnectedAs)
-                            {
-                            <Button Color="Color.Link" Clicked="CancelConnectAsAsync">
-                            Redevenir administrateur
-                            </Button>
-                            }
-                            </DropdownItem>*@
+                        <DropdownItem Clicked="@(()=>this.NavigationManager.NavigateTo(WebClient.Pages.User.MyAccountPage.Url))">
+                            My account
+                        </DropdownItem>
                     </DropdownMenu>
                 </Dropdown>
             </div>
             <div class="widget-content-left  ml-3 header-user-info">
                 <div class="widget-heading">  @this.User?.FirstName @this.User?.LastName</div>
                 <div class="widget-subheading">
-                   @this.User?.Role
+                    @this.User?.Role
                 </div>
             </div>
         </div>

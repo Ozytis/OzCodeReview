@@ -43,7 +43,7 @@ namespace WebClient
     {
         public App() : base()
         {
-            BaseService.OnAuthorizeRequired += async (sender, args) =>
+            BaseService.OnAuthorizeRequired += (sender, args) =>
             {
                 this.NavigationManager.NavigateTo(LoginPage.Url);
             };

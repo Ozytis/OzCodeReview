@@ -1,0 +1,8 @@
+﻿@inherits Ozytis.Common.Core.RazorTemplating.RazorEngineBaseTemplate<Business.Emails.EmailChangeRequestModel>
+
+<p>
+    Hello @Model.User.FirstName @Model.User.LastName,
+</p>
+<p>
+   A request to perform an account change on OzCode review has been created. In order to complete it please click on the following link <a href="@Model.Link" title="Change email">@Model.Link</a>.
+ </p>

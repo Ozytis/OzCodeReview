@@ -251,6 +251,57 @@ namespace Web.Controllers
             await this.UsersManager.DeleteUserAsync(userId);
         }
 
+        [HttpPut("myaccount")]
+        [ValidateModel, HandleBusinessException]
+        [Authorize]
+        public async Task<UserModel> UpdateMyAccountAsync([FromBody] UserUpdateModel model)
+        {
+            ApplicationUser user = new ApplicationUser
+            {
+                LastName = model.LastName,
+                FirstName = model.FirstName,                
+            };
+
+            await this.UsersManager.UpdateUserSelfAccountAsync(user, this.User.Identity.Name);
+            
+            return await this.GetCurrentUserAsync();
+        }
+
+        [HttpPut("email")]
+        [ValidateModel, HandleBusinessException]
+        [Authorize]
+        public async Task RequestEmailChangeAsync([FromBody] EmailUpdateModel model)
+        {
+            var user = await this.UsersManager.FindByNameAsync(this.User.Identity.Name);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            await this.UsersManager.RequestEmailChangeAsync(user, model.Email);
+        }
+
+        [HttpPut("mypassword")]
+        [ValidateModel, HandleBusinessException]
+        [Authorize]
+        public async Task UpdateMyPasswordAsync([FromBody] PasswordUpdateModel model)
+        {
+            var user = await this.UsersManager.FindByNameAsync(this.User.Identity.Name);
+
+            if (user == null)
+            {
+                return;
+            }
+
+            var result = await this.UsersManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+            if (!result.Succeeded)
+            {
+                throw new BusinessException(result.Errors.Select(e => e.Description).ToArray());
+            }
+        }
+
         private static IEnumerable<Claim> GenerateClaims(ApplicationUser user, List<Claim> claims)
         {
             claims.Add(new Claim(ClaimTypes.Name, user.UserName.ToString()));

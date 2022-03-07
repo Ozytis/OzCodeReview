@@ -41,11 +41,10 @@ namespace WebClient.Shared
             await base.OnInitializedAsync();
         }
 
-        private async void UsersRepository_OnCurrentUserUpdated(object sender, System.EventArgs e)
+        private void UsersRepository_OnCurrentUserUpdated(object sender, System.EventArgs e)
         {
             this.User = this.UsersRepository.CurrentUser;
-            //this.IsConnectedAs = await this.UsersRepository.IsUserConnectedAsAsync();
-
+            
             this.StateHasChanged();
         }
 

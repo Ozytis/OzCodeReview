@@ -1,0 +1,43 @@
+﻿<PageHeader Icon="@FontAwesomeIcons.User">
+    <HeadingContent>
+        <h1>My account</h1>
+    </HeadingContent>
+</PageHeader>
+
+<Container Class="m-1" Fluid="true">
+    <Row Class="mt-4">
+        <Column Size="4" SmSize="12">
+            <MyAccountInfo />
+        </Column>
+        <Column Size="4" SmSize="12">
+            <Card>
+                <CardHeader>
+                    <Icon Name="@FontAwesomeIcons.PhoneVolume" Class="header-icon" />
+                    My contact info
+                </CardHeader>
+                <CardBody>
+                    <dl>
+                        <dt>Email address</dt>
+                        <dd class="d-flex">
+                            @this.Email
+
+                            <Button Class="btn-icon btn-icon-only ml-auto" Color="Color.Link" 
+                                Clicked="@(() => {this.ShowEmailEditionModal = true; })">
+                                <Icon Name="@FontAwesomeIcons.Edit" />
+                            </Button>
+
+                        </dd>                       
+                    </dl>
+                </CardBody>
+            </Card>
+        </Column>
+        <Column Size="4" SmSize="12">
+            <MyPassword />
+        </Column>
+    </Row>
+</Container>
+
+@if (this.ShowEmailEditionModal)
+{
+    <MyEmailEdition OnCloseAsync="this.CloseEmailEditionAsync" />
+}

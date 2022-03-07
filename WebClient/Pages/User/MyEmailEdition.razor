@@ -1,0 +1,32 @@
+﻿<Modal OnClosing="()=> this.OnCloseAsync()">
+    <Header>
+        Edit my email address
+    </Header>
+    <Content>
+        <ErrorsSummary Errors="this.Errors" />
+        @if (Model != null)
+        {
+
+
+            <SfTextBox Type="InputType.Email" FloatLabelType="FloatLabelType.Auto" Placeholder="Email address*" @bind-Value="this.Model.Email" />
+
+
+        }
+        else
+        {
+            <div>
+                <Loader IsLoading="true" /> Loading...
+            </div>
+        }
+    </Content>
+    <Footer>
+        <Button Color="Color.Link" Clicked="@OnCloseAsync">
+            <Icon Name="@FontAwesomeIcons.Undo" />
+            Annuler
+        </Button>
+        <Button Color="Color.Primary" Clicked="@ProcessAsync">
+            <Loader IsLoading="this.IsProcessing" UsualIcon="@FontAwesomeIcons.Check" />
+            Suivant
+        </Button>
+    </Footer>
+</Modal>

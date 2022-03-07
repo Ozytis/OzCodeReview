@@ -1,6 +1,7 @@
 ﻿using Api;
 
 using ClientApi;
+
 using Entities;
 
 using Ozytis.Common.Core.ClientApi;
@@ -25,7 +26,7 @@ namespace WebClient.Repositories
 
         private readonly AuthService accountsService = new();
 
-        public UsersRepository(OzytisAuthStateProvider ozytisAuthStateProvider,LocalStorageService localStorageService)
+        public UsersRepository(OzytisAuthStateProvider ozytisAuthStateProvider, LocalStorageService localStorageService)
         {
             this.StateProvider = ozytisAuthStateProvider;
             this.LocalStorageService = localStorageService;
@@ -36,7 +37,7 @@ namespace WebClient.Repositories
         public UserModel CurrentUser { get; set; }
 
         public OzytisAuthStateProvider StateProvider { get; }
-        
+
         public LocalStorageService LocalStorageService { get; }
 
 
@@ -46,7 +47,7 @@ namespace WebClient.Repositories
 
             OperationResult<LoginResult> result = await this.accountsService.LoginAsync(new LoginModel
             {
-                Password = password,             
+                Password = password,
                 UserName = login
             }, true);
 
@@ -60,6 +61,31 @@ namespace WebClient.Repositories
             BaseService.SetBearerToken(result.Data.AccessToken);
 
             this.StateProvider.NotifyStateChanged(this.CurrentUser);
+        }
+
+        public async Task UpdatePasswordAsync(PasswordUpdateModel model)
+        {
+            OperationResult<object> result = await this.accountsService.UpdateMyPasswordAsync(model);
+
+            result.CheckIfSuccess();
+        }
+
+        public async Task RequestEmailChangeAsync(EmailUpdateModel model)
+        {
+            OperationResult<object> result = await this.accountsService.RequestEmailChangeAsync(model);
+
+            result.CheckIfSuccess();
+        }
+
+        public async Task UpdateCurrentUserAsync(UserUpdateModel updateModel)
+        {
+            OperationResult<UserModel> result = await this.accountsService.UpdateMyAccountAsync(updateModel);
+
+            result.CheckIfSuccess();
+
+            this.CurrentUser = result.Data;
+            this.OnCurrentUserUpdated?.Invoke(this, new EventArgs());
+
         }
 
         internal async Task RemoveUserAsync(string userId)
@@ -92,7 +118,7 @@ namespace WebClient.Repositories
             try
             {
                 Console.WriteLine("getting all users");
-                var result = await this.accountsService.GetAllUsersAsync(query);           
+                var result = await this.accountsService.GetAllUsersAsync(query);
 
                 return result;
             }
